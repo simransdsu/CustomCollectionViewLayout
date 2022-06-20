@@ -7,9 +7,9 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController1: UIViewController {
   
-  var dataSource: [String] = (0...5).map { "\($0)" }
+  
 
   override func viewDidLoad() {
     super.viewDidLoad()
