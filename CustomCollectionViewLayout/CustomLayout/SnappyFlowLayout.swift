@@ -22,7 +22,7 @@ class SnappyFlowLayout: UICollectionViewFlowLayout {
   
   private func setup() {
     scrollDirection = .horizontal
-    minimumLineSpacing = 40
+    minimumLineSpacing = 0
   }
   
   private func getCollectionView() -> UICollectionView {
@@ -46,6 +46,8 @@ class SnappyFlowLayout: UICollectionViewFlowLayout {
   
   override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
     let collectionView = getCollectionView()
+      
+      print("ℹ️", rect)
     
     // TODO remove force unwrapping
     let rectAttrs = super.layoutAttributesForElements(in: rect)!.map { $0.copy() as! UICollectionViewLayoutAttributes }
@@ -65,26 +67,26 @@ class SnappyFlowLayout: UICollectionViewFlowLayout {
     return rectAttrs
   }
   
-  // Snapping Behavior
+//  // Snapping Behavior
   override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
     let collectionView = getCollectionView()
-    
+
     let targetRect = CGRect(x: proposedContentOffset.x, y: proposedContentOffset.y, width: collectionView.frame.width, height: collectionView.frame.height)
-    
+
     guard let rectAttributes = super.layoutAttributesForElements(in: targetRect) else {
       return .zero
     }
-    
+
     var offsetAdjustment = CGFloat.greatestFiniteMagnitude
     let horizontalCenter = proposedContentOffset.x + collectionView.frame.width / 2
-    
+
     for layoutAttribute in rectAttributes {
       let itemHorizontalCenter = layoutAttribute.center.x
       if (itemHorizontalCenter - horizontalCenter).magnitude < offsetAdjustment.magnitude {
         offsetAdjustment = itemHorizontalCenter - horizontalCenter
       }
     }
-    
+      print("❌", collectionView.contentSize, (proposedContentOffset.x + offsetAdjustment), (collectionView.contentSize.width / (proposedContentOffset.x)))
     return CGPoint(x: proposedContentOffset.x + offsetAdjustment, y: proposedContentOffset.y)
   }
   

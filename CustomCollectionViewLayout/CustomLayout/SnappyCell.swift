@@ -36,7 +36,7 @@ class SnappyCell: UICollectionViewCell {
   private func makeImageView() -> UIImageView {
     let v = UIImageView()
     v.translatesAutoresizingMaskIntoConstraints = false
-    v.contentMode = .scaleAspectFit
+    v.contentMode = .scaleAspectFill
     return v
   }
 }
